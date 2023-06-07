@@ -6,7 +6,7 @@ import psutil
 import shutil
 import sys
 import win32com.client
-import keyboard
+import ctypes
 
 # Set the initial text color to green
 os.system("color a")
@@ -41,9 +41,9 @@ while True:
     display_full_screen_text(random_color() + code)
     time.sleep(0.05)
 
-    # Check if the Escape key is pressed to exit the program
-    if keyboard.is_pressed('esc'):
-        break
+    # Prevent program termination using ctypes
+    kernel32 = ctypes.WinDLL('kernel32')
+    kernel32.SetConsoleCtrlHandler(None, 1)
 
 # Monitoring process to restart the script if terminated
 def monitor_process():
